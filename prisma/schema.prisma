@@ -1,0 +1,75 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Store {
+  id          String   @id @default(cuid())
+  name        String
+  retailer    String
+  address     String
+  city        String
+  state       String
+  zip         String
+  latitude    Float
+  longitude   Float
+  phone       String?
+  websiteUrl  String?
+  hoursJson   String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  inventoryOffers InventoryOffer[]
+}
+
+model Product {
+  id              String   @id @default(cuid())
+  title           String
+  brand           String?
+  category        String?
+  description     String?
+  imageUrl        String?
+  upc             String?
+  sku             String?
+  sourceProductId String?
+  sourceName      String
+  productUrl      String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  inventoryOffers InventoryOffer[]
+}
+
+model InventoryOffer {
+  id                 String   @id @default(cuid())
+  productId          String
+  storeId            String
+  sourceName         String
+  sourceOfferId      String?
+  price              Float?
+  currency           String   @default("USD")
+  availabilityStatus String
+  quantity           Int?
+  confidence         String
+  evidenceText       String
+  productUrl         String?
+  lastCheckedAt      DateTime @default(now())
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  product Product @relation(fields: [productId], references: [id])
+  store   Store   @relation(fields: [storeId], references: [id])
+}
+
+model SearchLog {
+  id          String   @id @default(cuid())
+  query       String
+  zip         String
+  radiusMiles Int
+  resultCount Int
+  createdAt   DateTime @default(now())
+}
