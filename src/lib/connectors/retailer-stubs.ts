@@ -15,11 +15,6 @@ function createStub(name: string, note: string): ProductSearchConnector {
   };
 }
 
-export const WalmartConnector = createStub(
-  "WalmartConnector",
-  "Requires Walmart Affiliate API access. See https://developer.walmart.com/"
-);
-
 export const TargetConnector = createStub(
   "TargetConnector",
   "Requires Target API partnership. No public product API available."
@@ -51,7 +46,6 @@ export const GoogleMerchantLocalInventoryConnector = createStub(
 );
 
 export const ALL_STUBS = [
-  WalmartConnector,
   TargetConnector,
   MeijerConnector,
   KrogerConnector,
